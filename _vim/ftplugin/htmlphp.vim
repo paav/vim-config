@@ -17,8 +17,31 @@ nmap <buffer> <leader>pt o<C-y>p<C-r>=g:todo<CR>
 noremap <buffer> <leader>c1 o<C-r>=g:phpComment1<CR>
 noremap <buffer> <leader>c2 o<C-r>=g:phpComment2<CR><Esc>2hi
 noremap <buffer> <leader>ct o<C-r>=g:todo<CR>
+noremap <buffer> <leader>cc :call HtmlphpComment()<CR>
+noremap <buffer> <leader>cu :call HtmlphpUncomment()<CR>
 
 setlocal textwidth=0
+
+function! HtmlphpComment()
+    let delims = {'left': '<?php /*', 'right': '*/ ?>'}
+
+    let line = getline('.')
+
+    call setline('.', delims.left . line . delims.right)
+endfunction
+
+function! HtmlphpUncomment()
+    let line = getline('.')
+
+    let leftPat =  '<?php \/\*'
+    let rightPat =  '\*\/ ?>'
+
+    let pattern = '\(' . leftPat . '\|' . rightPat . '\)'
+
+    let newline = substitute(line, pattern, '', 'g')
+
+    call setline('.', newline)
+endfunction
 
 if exists("b:did_ftplugin") | finish | endif
 let b:did_ftplugin = 1
