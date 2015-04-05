@@ -1,27 +1,22 @@
 " vim: set sw=4 sts=4 fdm=marker:
 
-" Vundle
-"
+" SECTION: Vundle {{{
+"==============================================================================
 
 set nocompatible
+
 filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-
-" Plugins
-"
-
 Plugin 'gmarik/Vundle.vim'
-
 "Plugin 'Valloric/YouCompleteMe'
 "Plugin 'Shougo/neocomplcache.vim'
 Plugin 'flazz/vim-colorschemes'
 "Plugin 'itchyny/lightline.vim'
 "Plugin 'skammer/vim-css-color'
 "Plugin 'othree/vim-autocomplpop'
-
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'jelera/vim-javascript-syntax'
@@ -48,10 +43,13 @@ Plugin 'amiorin/vim-project'
 Plugin 'justinmk/vim-sneak'
 "Plugin 'vim-scripts/guicolorscheme.vim'
 Plugin 'vim-scripts/swap-parameters'
+"#plugins
 
 call vundle#end()
 
 filetype plugin indent on
+
+" }}}
 
 
 " SECTION: Functions {{{
@@ -105,6 +103,7 @@ function! MaximizeWin()
     endif
 
 endfunction    
+"#functions
 
 " }}}
 
@@ -130,6 +129,7 @@ augroup common
 
     " Don't insert comment after hitting 'o'
     autocmd Filetype * setlocal formatoptions-=o
+    "autocmds
 augroup END
 
 " }}}
@@ -203,8 +203,8 @@ vmap <C-Down> ]egv
 "cnoremap $d <CR>:d<CR>``
 
 
-" Jumps
-" ---------
+" Moving around
+"-------------------
 
 nnoremap l ;
 nnoremap h ,
