@@ -211,7 +211,10 @@ nnoremap h ,
 
 nnoremap w :bd<CR> 
 nnoremap L J
-
+" Scroll n lines up/down
+nnoremap _ H5k
+nnoremap - L5j
+"#mappings
 
 " Buffers, windows
 " ---------------------------------
