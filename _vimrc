@@ -173,6 +173,7 @@ colorscheme distinguished
 noremap ; :
 nnoremap <leader>v :e $MYVIMRC<CR>
 nnoremap <leader>t :e ~/docs/todo.txt<CR>
+nnoremap <leader>n :e ~/projects/vim-config/_vim/doc/notes.txt<CR>
 
 nnoremap <leader>s :so %<CR>
 
