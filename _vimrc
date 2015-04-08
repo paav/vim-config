@@ -104,7 +104,6 @@ function! MaximizeWin()
 
 endfunction    
 "#functions
-
 " }}}
 
 filetype plugin on
@@ -345,7 +344,8 @@ call project#rc('~/www')
 Project 'image-upload'
 Project 'calendar'
 Project 'expenses'
-
+Project '~/www/expenses/protected/extensions/paavtable'
+Project '~/www/expenses/protected/extensions/paavpager'
 
 " Vim-easymotion
 "
