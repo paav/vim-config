@@ -22,25 +22,27 @@ noremap <buffer> <leader>cu :call HtmlphpUncomment()<CR>
 
 setlocal textwidth=0
 
-function! HtmlphpComment()
+function! HtmlphpComment() range
     let delims = {'left': '<?php /*', 'right': '*/ ?>'}
 
-    let line = getline('.')
-
-    call setline('.', delims.left . line . delims.right)
+    for linenum in range(a:firstline, a:lastline)
+        let line = getline(linenum)
+        call setline(linenum, delims.left . line . delims.right)
+    endfor
 endfunction
 
-function! HtmlphpUncomment()
-    let line = getline('.')
-
+function! HtmlphpUncomment() range
     let leftPat =  '<?php \/\*'
     let rightPat =  '\*\/ ?>'
-
     let pattern = '\(' . leftPat . '\|' . rightPat . '\)'
 
-    let newline = substitute(line, pattern, '', 'g')
+    for linenum in range(a:firstline, a:lastline)
+        let line = getline(linenum)
+        let newline = substitute(line, pattern, '', 'g')
 
-    call setline('.', newline)
+        call setline(linenum, newline)
+    endfor
+
 endfunction
 
 if exists("b:did_ftplugin") | finish | endif
