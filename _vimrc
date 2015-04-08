@@ -238,6 +238,8 @@ map <C-l> <C-w>l
 " Sneak
 nmap <Space> <Plug>Sneak_s
 nmap H <Plug>Sneak_S
+xmap <Space> <Plug>Sneak_s
+xmap H <Plug>Sneak_S
 
 " }}}
 
