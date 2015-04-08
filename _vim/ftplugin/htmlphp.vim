@@ -4,19 +4,19 @@
 " Last Changed: 25 Mar 2015
 
 let b:php = '<?php ; ?>'
-let b:phpEcho = '<?php echo ;?>'
+let b:phpEcho = '<?php echo ; ?>'
 let b:phpComment1 = '// '
 let b:phpComment2 = '/*  */'
 let b:todo = '// TODO: '
 
 " File specific mappings
-inoremap <buffer> <C-y>p <C-r>=g:php<CR><Esc>3hi
-inoremap <buffer> <C-y>e <C-r>=g:phpEcho<CR><Esc>2hi
-nmap <buffer> <leader>p1 o<C-y>p<C-r>=g:phpComment1<CR>
-nmap <buffer> <leader>pt o<C-y>p<C-r>=g:todo<CR>
-noremap <buffer> <leader>c1 o<C-r>=g:phpComment1<CR>
-noremap <buffer> <leader>c2 o<C-r>=g:phpComment2<CR><Esc>2hi
-noremap <buffer> <leader>ct o<C-r>=g:todo<CR>
+inoremap <buffer> <C-y>p <C-r>=b:php<CR><Esc>3hi
+inoremap <buffer> <C-y>pe <C-r>=b:phpEcho<CR><Esc>3hi
+imap <buffer> <C-y>pc1 <C-y>p<C-r>=b:phpComment1<CR><Esc>lxi
+nmap <buffer> <leader>pt o<C-y>p<C-r>=b:todo<CR>
+noremap <buffer> <leader>c1 o<C-r>=b:phpComment1<CR>
+noremap <buffer> <leader>c2 o<C-r>=b:phpComment2<CR><Esc>2hi
+noremap <buffer> <leader>ct o<C-r>=b:todo<CR>
 noremap <buffer> <leader>cc :call HtmlphpComment()<CR>
 noremap <buffer> <leader>cu :call HtmlphpUncomment()<CR>
 
