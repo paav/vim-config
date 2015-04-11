@@ -43,6 +43,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'justinmk/vim-sneak'
 "Plugin 'vim-scripts/guicolorscheme.vim'
 Plugin 'vim-scripts/swap-parameters'
+Plugin 'vim-scripts/Gundo'
 "#plugins
 
 call vundle#end()
@@ -239,6 +240,10 @@ nmap <Space> <Plug>Sneak_s
 nmap H <Plug>Sneak_S
 xmap <Space> <Plug>Sneak_s
 xmap H <Plug>Sneak_S
+
+" Gundo
+nnoremap <F5> :GundoToggle<CR>
+
 
 " }}}
 
