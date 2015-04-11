@@ -171,9 +171,10 @@ colorscheme distinguished
 " ----------------------
 
 noremap ; :
-nnoremap <leader>v :e $MYVIMRC<CR>
-nnoremap <leader>t :e ~/docs/mastery-job.txt<CR>
-nnoremap <leader>n :e ~/projects/vim-config/_vim/doc/notes.txt<CR>
+
+nnoremap <leader>v :tabe $MYVIMRC<CR>
+nnoremap <leader>t :tabe ~/docs/mastery-job.txt<CR>
+nnoremap <leader>n :tabe ~/projects/vim-config/_vim/doc/notes.txt<CR>
 
 nnoremap <leader>s :so %<CR>
 
@@ -196,6 +197,7 @@ nmap <C-Down> ]e
 " " Bubble multiple lines
 vmap <C-Up> [egv
 vmap <C-Down> ]egv
+nnoremap L J
 
 "cnoremap $t <CR>:t''<CR>
 "cnoremap $T <CR>:T''<CR>
@@ -210,26 +212,38 @@ vmap <C-Down> ]egv
 nnoremap l ;
 nnoremap h ,
 
-nnoremap w :bd<CR> 
-nnoremap L J
 " Scroll n lines up/down
 nnoremap _ H5k
 nnoremap - L5j
 "#mappings
 
-" Buffers, windows
+
+" Buffers, windows, tabs
 " ---------------------------------
 
+nnoremap w :bd<CR> 
+nnoremap <leader>x <C-w>n<C-w>w:bd #<CR>
 " Nex/prev buffer
 nnoremap K :bnext<CR>
 nnoremap J :bprevious<CR>
-noremap <silent> M :call MaximizeWin()<CR>
+noremap <silent> <C-W>m :call MaximizeWin()<CR>
 
 " Moving between windows
 map <C-h> <C-w>h
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
+
+" Tabs
+nnoremap <Tab> gt
+nnoremap <S-Tab> gT
+nnoremap g1 1gt
+nnoremap g2 2gt
+nnoremap g3 3gt
+nnoremap g4 4gt
+nnoremap g5 5gt
+nnoremap g6 6gt
+nnoremap g0 :tablast<CR>
 
 
 " Plugin mappings
