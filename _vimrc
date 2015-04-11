@@ -38,7 +38,7 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'bling/vim-airline'
 Plugin 'nanotech/jellybeans.vim'
 Plugin 'godlygeek/tabular'
-Plugin 'amiorin/vim-project'
+"Plugin 'amiorin/vim-project'
 "Plugin 'Lokaltog/vim-easymotion'
 Plugin 'justinmk/vim-sneak'
 "Plugin 'vim-scripts/guicolorscheme.vim'
@@ -337,15 +337,16 @@ set diffopt+=vertical
 " Vim-project
 "
 
-let g:project_use_nerdtree = 1
-set rtp+=~/.vim/bundle/vim-project/
-call project#rc('~/www')
+"let g:project_use_nerdtree = 1
+"set rtp+=~/.vim/bundle/vim-project/
+"call project#rc('~/www')
 
-Project 'image-upload'
-Project 'calendar'
-Project 'expenses'
-Project '~/www/expenses/protected/extensions/paavtable'
-Project '~/www/expenses/protected/extensions/paavpager'
+"Project 'image-upload'
+"Project 'calendar'
+"Project 'expenses'
+"Project '~/www/expenses/protected/extensions/paavtable'
+"Project '~/www/expenses/protected/extensions/paavtable/vendor/paavpager'
+"Project '~/www/expenses/protected/extensions/paavpager'
 
 " Vim-easymotion
 "
