@@ -1,13 +1,22 @@
 " Vim filetype plugin file
 " Language:	htmlphp
 " Maintainer: Alexey Panteleiev (paav@inbox.ru)
-" Last Changed: 25 Mar 2015
+" Last Changed: 12 Apr 2015
+
+if exists("b:did_ftplugin") | finish | endif
+let b:did_ftplugin = 1
 
 let b:php = '<?php ; ?>'
 let b:phpEcho = '<?php echo ; ?>'
 let b:phpComment1 = '// '
 let b:phpComment2 = '/*  */'
 let b:todo = '// TODO: '
+
+let g:htmlphpDelims = [
+    \ {'left': '<?php /*', 'right': '*/ ?>'},
+    \ {'left': '//'}
+\ ]
+let b:htmlphpDelimIndex = 0
 
 " File specific mappings
 inoremap <buffer> <C-y>p <C-r>=b:php<CR><Esc>3hi
@@ -19,22 +28,33 @@ noremap <buffer> <leader>c2 o<C-r>=b:phpComment2<CR><Esc>2hi
 noremap <buffer> <leader>ct o<C-r>=b:todo<CR>
 noremap <buffer> <leader>cc :call HtmlphpComment()<CR>
 noremap <buffer> <leader>cu :call HtmlphpUncomment()<CR>
-
-setlocal textwidth=0
+noremap <buffer> <leader>ca :call HtmlphpNextDelim()<CR>
 
 function! HtmlphpComment() range
-    let delims = {'left': '<?php /*', 'right': '*/ ?>'}
+    let delim = g:htmlphpDelims[b:htmlphpDelimIndex]
+    let hasRight = has_key(delim, 'right')
 
     for linenum in range(a:firstline, a:lastline)
         let line = getline(linenum)
-        call setline(linenum, delims.left . line . delims.right)
+        let newline = delim.left . line
+
+        if (hasRight)
+            let newline .= delim.right
+        endif
+
+        call setline(linenum, newline)
     endfor
 endfunction
 
 function! HtmlphpUncomment() range
-    let leftPat =  '<?php \/\*'
-    let rightPat =  '\*\/ ?>'
-    let pattern = '\(' . leftPat . '\|' . rightPat . '\)'
+    let delimPattern = g:htmlphpDelimPatterns[b:htmlphpDelimIndex]
+    let pattern = '\(' . delimPattern.left
+
+    if (has_key(delimPattern, 'right'))
+        let pattern .= '\|' . delimPattern.right
+    endif
+
+    let pattern .= '\)'
 
     for linenum in range(a:firstline, a:lastline)
         let line = getline(linenum)
@@ -42,17 +62,47 @@ function! HtmlphpUncomment() range
 
         call setline(linenum, newline)
     endfor
-
 endfunction
 
-if exists("b:did_ftplugin") | finish | endif
-let b:did_ftplugin = 1
+function! s:createDelimPatterns()
+    let g:htmlphpDelimPatterns = []
+    let chars = '/*'
+
+    for delim in g:htmlphpDelims
+        let patterns = {}
+
+        if (has_key(delim, 'left'))
+            let patterns.left= escape(delim.left, chars)
+        endif
+
+        if (has_key(delim, 'right'))
+            let patterns.right = escape(delim.right, chars)
+        endif
+
+        call add(g:htmlphpDelimPatterns, patterns)
+    endfor
+endfunction
+
+function! HtmlphpNextDelim()
+    let size = len(b:htmlphpDelims) 
+
+    if b:htmlphpDelimIndex >= size - 1
+        let b:htmlphpDelimIndex = 0
+    else
+        let b:htmlphpDelimIndex += 1
+    endif
+
+    echo b:htmlphpDelims[b:htmlphpDelimIndex]
+endfunction
+
+call s:createDelimPatterns()
 
 " Make sure the continuation lines below do not cause problems in
 " compatibility mode.
 let s:save_cpo = &cpo
 set cpo-=C
 
+setlocal textwidth=0
 setlocal matchpairs+=<:>
 setlocal commentstring=<!--%s-->
 setlocal comments=s:<!--,m:\ \ \ \ ,e:-->
