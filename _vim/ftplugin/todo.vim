@@ -33,6 +33,7 @@ endfunction
 
 function! s:moveToDone()
     let line = getline('.')
+    let curpos = getcurpos()
 
     d | /+/-1
 
@@ -41,4 +42,6 @@ function! s:moveToDone()
     let today = strftime('%Y-%m-%d') 
 
     call append('.', '+' . text . ' ' . date . ' => ' . today)
+
+    call setpos('.', curpos)
 endfunction
