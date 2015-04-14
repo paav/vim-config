@@ -9,7 +9,7 @@ let b:did_ftplugin = 1
 let b:php = '<?php ; ?>'
 let b:phpEcho = '<?php echo ; ?>'
 
-let g:htmlphpDelims = [
+let b:htmlphpDelims = [
     \ {'left': '<?php /*', 'right': '*/ ?>'},
     \ {'left': '//'}
 \ ]
