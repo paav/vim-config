@@ -104,6 +104,15 @@ function! MaximizeWin()
     endif
 
 endfunction    
+
+function! Replace(search, ...)
+    let replace = a:0 > 0 ? a:1 : '' 
+    let range = a:firstline . ',' . a:lastline 
+    let command = 's/\V' . a:search .'/' . replace .'/g'
+
+    silent! exe range . command 
+endfunction
+
 "#functions
 " }}}
 
@@ -133,6 +142,8 @@ augroup common
 augroup END
 
 " }}}
+
+command! -range -nargs=* Replace <line1>,<line2>call Replace(<f-args>) 
 
 
 " SECTION: Options {{{
@@ -198,6 +209,9 @@ nmap <C-Down> ]e
 vmap <C-Up> [egv
 vmap <C-Down> ]egv
 nnoremap L J
+
+nnoremap <leader>r :Replace<Space>
+vnoremap <leader>r :Replace<Space>
 
 "cnoremap $t <CR>:t''<CR>
 "cnoremap $T <CR>:T''<CR>
