@@ -94,7 +94,8 @@ endfunction
 function! MaximizeWin()
     if !exists('g:winIsMaximized')
         let g:restoreWinCmd = winrestcmd()
-        exe "normal! \<C-w>_"
+        wincmd _
+        wincmd |
         let g:winIsMaximized = 1
 
     else
