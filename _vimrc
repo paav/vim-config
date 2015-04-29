@@ -106,7 +106,7 @@ function! MaximizeWin()
 
 endfunction    
 
-function! Replace(search, ...)
+function! <SID>Replace(search, ...) range
     let replace = a:0 > 0 ? a:1 : '' 
     let range = a:firstline . ',' . a:lastline 
     let command = 's/\V' . a:search .'/' . replace .'/g'
@@ -144,7 +144,7 @@ augroup END
 
 " }}}
 
-command! -range -nargs=* Replace <line1>,<line2>call Replace(<f-args>) 
+command! -range -nargs=* Replace <line1>,<line2>call <SID>Replace(<f-args>) 
 
 
 " SECTION: Options {{{
