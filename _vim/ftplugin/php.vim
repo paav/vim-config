@@ -1,40 +1,19 @@
-inoremap <buffer> <C-y>f <C-r>=PhpInsertFunc(0)<CR>| " public
-inoremap <buffer> <C-y>fs <C-r>=PhpInsertFunc(0, 0)<CR>| " public static
-inoremap <buffer> <C-y>fp <C-r>=PhpInsertFunc(1)<CR>| " protected
+ia <buffer> fpu <Esc>:call <SID>PhpInsertFunc('public')<CR>
+ia <buffer> fpus <Esc>:call <SID>PhpInsertFunc('public static')<CR>
+ia <buffer> fpr <Esc>:call <SID>PhpInsertFunc('protected')<CR>
+ia <buffer> fprs <Esc>:call <SID>PhpInsertFunc('protected static')<CR>
 
-function! PhpInsertFunc(visIndex, ...)
-    let visibilities = [
-        \ 'public',
-        \ 'protected',
-        \ 'private'
-    \ ]
-    let types = ['static']
+function! <SID>PhpInsertFunc(prefix)
+    set fo-=r 
 
-    let prefix = visibilities[a:visIndex]
+    let doc = "/**\<cr> *\<cr>* @return\<cr>*/"
+    let func = "function()\<cr>{\<cr>\<cr>}"
+    let curpos = "?()\<cr>"
 
-    if (a:0 > 0)
-        let prefix .= ' ' . types[a:1]
-    endif
+    execute 'normal! i' . doc . "\<cr>" . a:prefix . ' ' . func
+                      \ . "\<cr>\<esc>" . curpos
+ 
+    startinsert
 
-    let prefixLen = strlen(prefix)
-
-    let lineNum = line('.') - 1
-    let indentWidth = indent('.')
-    let indent = repeat(' ', indentWidth)
-
-    let indentCounts = [1, 1, 2, 1]
-    let lines = [
-        \ prefix . ' function ()',
-        \ '{',
-        \ '',
-        \ '}'
-    \ ]
-
-    call map(lines, "repeat(indent, indentCounts[v:key]) . v:val")
-
-    call append(lineNum, lines)
-
-    call cursor(lineNum + 1, indentWidth + prefixLen + 11)
-
-    return ''
+    set fo+=r 
 endfunction
