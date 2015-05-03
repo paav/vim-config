@@ -44,6 +44,7 @@ Plugin 'justinmk/vim-sneak'
 "Plugin 'vim-scripts/guicolorscheme.vim'
 Plugin 'vim-scripts/swap-parameters'
 Plugin 'vim-scripts/Gundo'
+Plugin 'todo', {'pinned': 1}
 "#plugins
 
 call vundle#end()
