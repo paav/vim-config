@@ -23,7 +23,7 @@ noremap <buffer> <leader>cu :call HtmlphpUncomment()<CR>
 noremap <buffer> <leader>ca :call HtmlphpNextDelim()<CR>
 
 function! HtmlphpComment() range
-    let delim = g:htmlphpDelims[b:htmlphpDelimIndex]
+    let delim = b:htmlphpDelims[b:htmlphpDelimIndex]
     let hasRight = has_key(delim, 'right')
 
     for linenum in range(a:firstline, a:lastline)
@@ -39,7 +39,7 @@ function! HtmlphpComment() range
 endfunction
 
 function! HtmlphpUncomment() range
-    let delimPattern = g:htmlphpDelimPatterns[b:htmlphpDelimIndex]
+    let delimPattern = b:htmlphpDelimPatterns[b:htmlphpDelimIndex]
     let pattern = '\(' . delimPattern.left
 
     if (has_key(delimPattern, 'right'))
@@ -57,10 +57,10 @@ function! HtmlphpUncomment() range
 endfunction
 
 function! s:createDelimPatterns()
-    let g:htmlphpDelimPatterns = []
+    let b:htmlphpDelimPatterns = []
     let chars = '/*'
 
-    for delim in g:htmlphpDelims
+    for delim in b:htmlphpDelims
         let patterns = {}
 
         if (has_key(delim, 'left'))
@@ -71,7 +71,7 @@ function! s:createDelimPatterns()
             let patterns.right = escape(delim.right, chars)
         endif
 
-        call add(g:htmlphpDelimPatterns, patterns)
+        call add(b:htmlphpDelimPatterns, patterns)
     endfor
 endfunction
 
