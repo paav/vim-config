@@ -120,6 +120,21 @@ function! <SID>Replace(search, ...) range
     silent! exe range . command 
 endfunction
 
+function! MakeList() range
+    let i = 0
+
+    for linenum in range(a:firstline, a:lastline)
+        let line = getline(linenum)
+
+        if line != ''
+            let i += 1
+            let num = printf('%d. ', i)
+            call setline(linenum, num . line)
+        endif
+
+    endfor
+endfunction
+
 "#functions
 " }}}
 
