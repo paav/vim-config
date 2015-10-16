@@ -13,7 +13,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 "Plugin 'Valloric/YouCompleteMe'
 "Plugin 'Shougo/neocomplcache.vim'
-Plugin 'flazz/vim-colorschemes'
+"Plugin 'flazz/vim-colorschemes'
 "Plugin 'itchyny/lightline.vim'
 "Plugin 'skammer/vim-css-color'
 "Plugin 'othree/vim-autocomplpop'
@@ -44,7 +44,7 @@ Plugin 'justinmk/vim-sneak'
 "Plugin 'vim-scripts/guicolorscheme.vim'
 Plugin 'vim-scripts/swap-parameters'
 Plugin 'vim-scripts/Gundo'
-Plugin 'todo', {'pinned': 1}
+"Plugin 'todo', {'pinned': 1}
 "#plugins
 
 call vundle#end()
