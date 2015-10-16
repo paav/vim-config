@@ -1,4 +1,4 @@
-" vim: set sw=4 sts=4 fdm=marker:
+" vim:sw=4 sts=4 fdm=marker fdl=1 
 
 " SECTION: Vundle {{{
 "==============================================================================
