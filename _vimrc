@@ -135,6 +135,75 @@ function! MakeList() range
     endfor
 endfunction
 
+function! NextTabOrBuf()
+    if (tabpagenr('$') == 1)
+        bn
+    else
+        tabn
+    endif
+endfunction
+
+function! PrevTabOrBuf()
+    if (tabpagenr('$') == 1)
+        bp
+    else
+        tabp
+    endif
+endfunction
+
+function! s:InsertDate() abort
+    let l:LNUM = 2
+    let l:oldline = getline(l:LNUM)
+
+    let l:saved_lang = v:lc_time 
+    language time en_US.UTF-8
+    let l:timestr = strftime('%Y %b %d')
+
+    if l:oldline !~# l:timestr
+        let l:regexp = '\vLast Change:\s+\zs.*'
+
+        let l:newline = substitute(l:oldline, l:regexp, l:timestr, '')
+        call setline(l:LNUM, l:newline)
+    endif
+
+    exe 'language time ' . l:saved_lang
+endfunction
+
+function! s:GotoBufOrWinNum(num) abort
+    let notabs = tabpagenr('$') == 1
+
+    if (a:num == '$')
+        if (notabs)
+            blast
+        else
+            tablast
+        endif
+
+        return
+    endif
+
+    if (notabs)
+        let bufnrs = []
+
+        for i in range(bufnr('$'))
+            let bufnr = i + 1
+
+            if bufexists(bufnr) && buflisted(bufnr) 
+                call add(bufnrs, bufnr)
+            endif
+        endfor
+
+        let buf = get(bufnrs, a:num - 1) 
+
+        try
+            exe 'buffer ' . buf 
+        catch /^Vim(buffer)/
+            echom 'Info: there are only ' . len(bufnrs) . ' listed buffers.'
+        endtry
+    else
+        exe 'tabn ' . a:num
+    endif
+endfunction
 "#functions
 " }}}
 
@@ -273,15 +342,18 @@ map <C-k> <C-w>k
 map <C-l> <C-w>l
 
 " Tabs
-nnoremap <Tab> gt
-nnoremap <S-Tab> gT
-nnoremap g1 1gt
-nnoremap g2 2gt
-nnoremap g3 3gt
-nnoremap g4 4gt
-nnoremap g5 5gt
-nnoremap g6 6gt
-nnoremap g0 :tablast<CR>
+nnoremap K :call NextTabOrBuf()<CR>
+nnoremap J :call PrevTabOrBuf()<CR>
+nnoremap g1 :call <SID>GotoBufOrWinNum(1)<CR>
+nnoremap g2 :call <SID>GotoBufOrWinNum(2)<CR>
+nnoremap g3 :call <SID>GotoBufOrWinNum(3)<CR>
+nnoremap g4 :call <SID>GotoBufOrWinNum(4)<CR>
+nnoremap g5 :call <SID>GotoBufOrWinNum(5)<CR>
+nnoremap g6 :call <SID>GotoBufOrWinNum(6)<CR>
+nnoremap g7 :call <SID>GotoBufOrWinNum(7)<CR>
+nnoremap g8 :call <SID>GotoBufOrWinNum(8)<CR>
+nnoremap g9 :call <SID>GotoBufOrWinNum(9)<CR>
+nnoremap g0 :call <SID>GotoBufOrWinNum('$')<CR> 
 
 
 " Plugin mappings
