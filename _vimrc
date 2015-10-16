@@ -45,7 +45,10 @@ Plugin 'justinmk/vim-sneak'
 Plugin 'vim-scripts/swap-parameters'
 Plugin 'vim-scripts/Gundo'
 Plugin 'tpope/vim-repeat'
-"Plugin 'todo', {'pinned': 1}
+Plugin 'svermeulen/vim-easyclip'
+
+
+"Plugin 'vim-todo', {'pinned': 1}
 "#plugins
 
 call vundle#end()
@@ -275,6 +278,9 @@ xmap H <Plug>Sneak_S
 " Gundo
 nnoremap <F5> :GundoToggle<CR>
 
+" easyclip
+nmap <F6> <Plug>PasteToggle
+imap <F6> <Plug>PasteToggle
 
 " }}}
 
@@ -403,6 +409,12 @@ set diffopt+=vertical
 
 let g:sneak#s_next = 1
 let g:sneak#use_ic_scs = 1
+
+
+" easyclip
+"
+
+let g:EasyClipAlwaysMoveCursorToEndOfPaste = 1
 
 " }}}
 
