@@ -46,7 +46,7 @@ Plugin 'vim-scripts/swap-parameters'
 Plugin 'vim-scripts/Gundo'
 Plugin 'tpope/vim-repeat'
 Plugin 'svermeulen/vim-easyclip'
-
+Plugin 'altercation/vim-colors-solarized' "Apply solarized term colors before
 
 "Plugin 'vim-todo', {'pinned': 1}
 "#plugins
@@ -176,7 +176,9 @@ set title         " change the terminal's title
 set showcmd       " e.g. to show number of chars in selection
 set clipboard=unnamed,unnamedplus
 set pastetoggle=<F2>
-colorscheme distinguished
+set background=dark
+
+colorscheme solarized
 
 " }}}
 
