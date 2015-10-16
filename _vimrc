@@ -47,8 +47,9 @@ Plugin 'vim-scripts/Gundo'
 Plugin 'tpope/vim-repeat'
 Plugin 'svermeulen/vim-easyclip'
 Plugin 'altercation/vim-colors-solarized' "Apply solarized term colors before
-
-"Plugin 'vim-todo', {'pinned': 1}
+Plugin 'michaeljsmith/vim-indent-object'
+" Plugin 'vim-todo', {'pinned': 1}
+Plugin 'plasticboy/vim-markdown'
 "#plugins
 
 call vundle#end()
