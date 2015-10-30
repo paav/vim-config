@@ -362,6 +362,8 @@ nnoremap g7 :call <SID>GotoBufOrWinNum(7)<CR>
 nnoremap g8 :call <SID>GotoBufOrWinNum(8)<CR>
 nnoremap g9 :call <SID>GotoBufOrWinNum(9)<CR>
 nnoremap g0 :call <SID>GotoBufOrWinNum('$')<CR> 
+" switch to recent buffer
+nnoremap q <C-^> 
 
 
 " Plugin mappings
