@@ -370,10 +370,10 @@ nnoremap q <C-^>
 " ---------------------
 
 " Sneak
-nmap <Space> <Plug>Sneak_s
-nmap H <Plug>Sneak_S
-xmap <Space> <Plug>Sneak_s
-xmap H <Plug>Sneak_S
+nmap ; <Plug>SneakNext
+nmap , <Plug>SneakPrevious
+nmap s <Plug>Sneak_S
+xmap s <Plug>Sneak_S
 
 " Gundo
 nnoremap <F5> :GundoToggle<CR>
