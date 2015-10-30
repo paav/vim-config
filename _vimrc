@@ -312,9 +312,13 @@ vnoremap <leader>r :Replace<Space>
 "cnoremap $M <CR>:M''<CR>
 "cnoremap $d <CR>:d<CR>``
 
-" Paste with Ctrl-v
+" Copy, cut, paste with Ctrl-v
 vnoremap <C-v> "_dP
-nnoremap <C-v> P
+nnoremap <C-v> p
+vnoremap <C-x> d
+vnoremap <C-c> y
+nnoremap <C-c> y
+
 
 
 " Moving around
