@@ -229,7 +229,10 @@ augroup common
 
     " Don't insert comment after hitting 'o'
     autocmd Filetype * setlocal formatoptions-=o
-    "autocmds
+
+    " Highlight line number
+    autocmd ColorScheme * hi clear CursorLine
+    "#autocmds
 augroup END
 
 " }}}
@@ -262,6 +265,8 @@ set showcmd       " e.g. to show number of chars in selection
 set clipboard=unnamed,unnamedplus
 set pastetoggle=<F2>
 set background=dark
+set cursorline
+"#options
 
 colorscheme solarized
 
