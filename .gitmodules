@@ -1,3 +1,3 @@
 [submodule "_vim/bundle/todo"]
-	path = _vim/bundle/vim-todo
+	path = vim/bundle/vim-todo
 	url = git@github.com:paav/todo.git
