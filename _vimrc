@@ -50,6 +50,7 @@ Plugin 'altercation/vim-colors-solarized' "Apply solarized term colors before
 Plugin 'michaeljsmith/vim-indent-object'
 " Plugin 'vim-todo', {'pinned': 1}
 Plugin 'plasticboy/vim-markdown'
+Plugin 'raymond-w-ko/vim-lua-indent'
 "#plugins
 
 call vundle#end()
@@ -222,17 +223,27 @@ augroup common
     autocmd!
 
     autocmd BufRead,BufNewFile *.jshintrc set filetype=json
-    autocmd Filetype json,html,htmlphp,javascript,css,less
+    autocmd Filetype json,html,htmlphp,css,less
         \ setlocal ts=2 sts=2 sw=2
-    autocmd Filetype vim,php setlocal ts=4 sts=4 sw=4
+    autocmd Filetype vim,php,python setlocal ts=4 sts=4 sw=4
     autocmd Filetype text setlocal textwidth=80
 
+    au BufWritePre,FileWritePre *.vim call s:InsertDate() 
     " Don't insert comment after hitting 'o'
     autocmd Filetype * setlocal formatoptions-=o
 
     " Highlight line number
-    autocmd ColorScheme * hi clear CursorLine
-    "#autocmds
+    " autocmd ColorScheme * hi clear CursorLine
+    autocmd BufEnter * silent! lcd %:p:h
+    autocmd BufRead,BufNewFile *_notes.txt
+        \ setlocal keymap=russian-jcukenwin |
+        \ setlocal spell spelllang=ru_ru,en_us
+        " \ setlocal iminsert=0 |
+        " \ setlocal imsearch=0 |
+        \ highlight lCursor guifg=NONE guibg=Red
+
+    autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
+    " autocmd BufReadPost quickfix nnoremap <CR> <CR>
 augroup END
 
 " }}}
@@ -263,9 +274,13 @@ set incsearch     " show search matches as you type
 set title         " change the terminal's title
 set showcmd       " e.g. to show number of chars in selection
 set clipboard=unnamed,unnamedplus
-set pastetoggle=<F2>
+set pastetoggle=<F6>
 set background=dark
-set cursorline
+set mouse=a
+set ttymouse=xterm
+set splitright
+set listchars=eol:$,tab:>-
+" set cursorline
 "#options
 
 colorscheme solarized
@@ -273,16 +288,18 @@ colorscheme solarized
 " }}}
 
 
-" SECTION: Mappings {{{
-"==============================================================================
+" Key Mappings {{{
+" ============
 
 " Misc
-" ----------------------
+" ----
 
 noremap ; :
 
-nnoremap <leader>v :tabe $MYVIMRC<CR>
-nnoremap <leader>t :tabe ~/docs/mastery-job.txt<CR>
+nnoremap <leader>v :tabe ~/projects/vim-config/_vimrc<CR>
+nnoremap <leader>mj :tabe ~/docs/mastery-job.txt<CR>
+nnoremap <leader>m :tabe ~/docs/mastery.txt<CR>
+nnoremap <leader>t :tabe ~/docs/pleasure.txt<CR>
 nnoremap <leader>n :tabe ~/projects/vim-config/_vim/doc/notes.txt<CR>
 
 nnoremap <leader>s :so %<CR>
@@ -290,26 +307,38 @@ nnoremap <leader>s :so %<CR>
 nmap <leader>l :set list!<CR>
 nnoremap <silent> ,/ :nohlsearch<CR>
 
+nmap <leader>cd :lcd %:h \| pw<CR> 
 
-" Editings
+" nnoremap <C-s> :w<CR>
+
+nnoremap v <C-v>
+command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
+nnoremap <Return> :w<CR>
+
+" Editing
 " ----------------------
 
 nnoremap <silent> <F5> :call <SID>StripTrailingWhitespaces()<CR>
 
 " Insert empty line above or below
-nnoremap j o<Esc>k
 nnoremap k O<Esc>j
+nnoremap j o<Esc>k
+
+" Duplicate line
+nnoremap d yyp
 
 " Bubble single lines
 nmap <C-Up> [e
 nmap <C-Down> ]e
-" " Bubble multiple lines
+" Bubble multiple lines
 vmap <C-Up> [egv
 vmap <C-Down> ]egv
 nnoremap L J
 
 nnoremap <leader>r :Replace<Space>
 vnoremap <leader>r :Replace<Space>
+
+nnoremap gm m
 
 "cnoremap $t <CR>:t''<CR>
 "cnoremap $T <CR>:T''<CR>
@@ -318,34 +347,36 @@ vnoremap <leader>r :Replace<Space>
 "cnoremap $d <CR>:d<CR>``
 
 " Copy, cut, paste with Ctrl-v
+" @TODO: Optimize this
 vnoremap <C-v> "_dP
 nnoremap <C-v> p
+inoremap <C-v> +
 vnoremap <C-x> d
 vnoremap <C-c> y
 nnoremap <C-c> y
 
 
-
 " Moving around
 "-------------------
 
-nnoremap l ;
-nnoremap h ,
+" nnoremap ; ;
+" nnoremap , ,
+" vnoremap ; ;
+" vnoremap , ,
 
-" Scroll n lines up/down
-nnoremap _ H5k
-nnoremap - L5j
-"#mappings
-
+nnoremap <Space> ;
+vnoremap <Space> ;
+nnoremap <NUL> ,
+vnoremap <NUL> ,
 
 " Buffers, windows, tabs
-" ---------------------------------
+" ----------------------
 
 nnoremap w :bd<CR> 
 nnoremap <leader>x <C-w>n<C-w>w:bd #<CR>
 " Nex/prev buffer
-nnoremap K :bnext<CR>
-nnoremap J :bprevious<CR>
+"nnoremap K :bnext<CR>
+"nnoremap J :bprevious<CR>
 noremap <silent> <C-W>m :call MaximizeWin()<CR>
 
 " Moving between windows
@@ -357,36 +388,44 @@ map <C-l> <C-w>l
 " Tabs
 nnoremap K :call NextTabOrBuf()<CR>
 nnoremap J :call PrevTabOrBuf()<CR>
-nnoremap g1 :call <SID>GotoBufOrWinNum(1)<CR>
-nnoremap g2 :call <SID>GotoBufOrWinNum(2)<CR>
-nnoremap g3 :call <SID>GotoBufOrWinNum(3)<CR>
-nnoremap g4 :call <SID>GotoBufOrWinNum(4)<CR>
-nnoremap g5 :call <SID>GotoBufOrWinNum(5)<CR>
-nnoremap g6 :call <SID>GotoBufOrWinNum(6)<CR>
-nnoremap g7 :call <SID>GotoBufOrWinNum(7)<CR>
-nnoremap g8 :call <SID>GotoBufOrWinNum(8)<CR>
-nnoremap g9 :call <SID>GotoBufOrWinNum(9)<CR>
-nnoremap g0 :call <SID>GotoBufOrWinNum('$')<CR> 
-" switch to recent buffer
+nnoremap f :call NextTabOrBuf()<CR>
+nnoremap a :call PrevTabOrBuf()<CR>
+nnoremap 1 :call <SID>GotoBufOrWinNum(1)<CR>
+nnoremap 2 :call <SID>GotoBufOrWinNum(2)<CR>
+nnoremap 3 :call <SID>GotoBufOrWinNum(3)<CR>
+nnoremap 4 :call <SID>GotoBufOrWinNum(4)<CR>
+nnoremap 5 :call <SID>GotoBufOrWinNum(5)<CR>
+nnoremap 6 :call <SID>GotoBufOrWinNum(6)<CR>
+nnoremap 7 :call <SID>GotoBufOrWinNum(7)<CR>
+nnoremap 8 :call <SID>GotoBufOrWinNum(8)<CR>
+nnoremap 8 :call <SID>GotoBufOrWinNum(9)<CR>
+nnoremap 0 :call <SID>GotoBufOrWinNum('$')<CR> 
+" switch to recent the buffer
 nnoremap q <C-^> 
 
 
 " Plugin mappings
-" ---------------------
+" ---------------
 
 " Sneak
-nmap ; <Plug>SneakNext
-nmap , <Plug>SneakPrevious
+nmap <Space> <Plug>SneakNext
+nmap <NUL> <Plug>SneakPrevious
 nmap s <Plug>Sneak_S
 xmap s <Plug>Sneak_S
 
 " Gundo
 nnoremap <F5> :GundoToggle<CR>
 
+" CtrlP
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_prompt_mappings = { 'ToggleMRURelative()': ['<F3>'] }
+
 " easyclip
 nmap <F6> <Plug>PasteToggle
 imap <F6> <Plug>PasteToggle
 
+" Todo
+nmap <F8> :TodoToggle<cr>
 " }}}
 
 
@@ -426,9 +465,15 @@ let g:ycm_semantic_triggers =  {
 " CtrlP
 "
 
-let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPMRU'
 let g:ctrlp_by_filename = 1
+let g:ctrlp_mruf_relative = 0
+let g:ctrlp_user_command = {
+    \ 'types': {
+        \ 1: ['.git', 'cd %s && git ls-files . -co --exclude-standard'],
+    \ },
+    \ 'fallback': 'find %s -type f'
+\ }
 
 
 " Vim-airline
@@ -473,6 +518,8 @@ let g:NERDCustomDelimiters = {
         \'right': '*/ ?>'
     \},
 \} 
+
+let NERDSpaceDelims = 1
 
 
 " Vim-fugitive
@@ -521,5 +568,27 @@ let g:sneak#use_ic_scs = 1
 
 let g:EasyClipAlwaysMoveCursorToEndOfPaste = 1
 
-" }}}
 
+" vim-todo
+"
+
+let g:todo_dbfile = '/home/alex/.vim/bundle/vim-todo/data/todo.dev.db'
+
+
+" vim-markdown
+"
+
+let g:vim_markdown_folding_disabled=1
+
+
+" Man
+"
+
+runtime ftplugin/man.vim
+
+"Swap-parameters
+"---------------
+map gs gb
+map gS gB
+
+" }}}
